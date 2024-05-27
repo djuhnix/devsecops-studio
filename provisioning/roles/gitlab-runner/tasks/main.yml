@@ -1,30 +1,30 @@
 ---
 
 - name: Check if GitLab Runner /etc directory is created
-  stat: path=/etc/gitlab-runner
+  ansible.builtin.stat: path=/etc/gitlab-runner
   register: gitlab_config_dir
 
 - name: Check if GitLab Runner Configuragion file is present
-  stat: path=/etc/gitlab-runner
+  ansible.builtin.stat: path=/etc/gitlab-runner
   register: gitlab_config_file
 
 - name: Check if GitLab Runner is already installed.
-  stat: path=/usr/bin/gitlab-runner
+  ansible.builtin.stat: path=/usr/bin/gitlab-runner
   register: gitlab_runner_file
 
 - name: Download GitLab Runner repository installation script.
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ gitlab_runner_repository_installation_script_url }}"
     dest: /tmp/gitlab_runner_install_repository.sh
     validate_certs: yes
   when: (gitlab_runner_file.stat.exists == false)
 
 - name: Install GitLab Runner repository
-  command: bash /tmp/gitlab_runner_install_repository.sh
+  ansible.builtin.command: bash /tmp/gitlab_runner_install_repository.sh
   when: (gitlab_runner_file.stat.exists == false)
 
 - name: Install GitLab Runner dependencies
-  apt:
+  ansible.builtin.apt:
     name: '{{ item }}'
     state: present
   with_items:
@@ -33,12 +33,12 @@
     - ca-certificates
 
 - name: Install GitLab Runner
-  apt:
+  ansible.builtin.apt:
     name: gitlab-runner
     state: present
 
 - name: Create required directory
-  file:
+  ansible.builtin.file:
     path: "{{ gitlab_runner_persistent_dir }}"
     state: directory
     owner: gitlab-runner
@@ -48,7 +48,7 @@
   when: (gitlab_config_dir.stat.exists == false)
 
 - name: Copy config.toml to /etc/gitlab-runner
-  template:
+  ansible.builtin.template:
     src: config.toml.j2
     dest: /etc/gitlab-runner/config.toml
     owner: root
@@ -57,11 +57,11 @@
   when: (gitlab_config_file.stat.exists == false)
 
 - name: Install Self-Signed cert on system
-  include_tasks: custom-certs.yml
+  ansible.builtin.include_tasks: custom-certs.yml
   when: gitlab_runner_connect_enable == true
 
 - name: Wait untils Gitlab web API is available
-  uri:
+  ansible.builtin.uri:
     url: '{{ gitlab_runner_coordinator_url }}'
     method: GET
     validate_certs: no
@@ -72,19 +72,19 @@
   when: gitlab_runner_connect_enable == true
 
 - name: Check whether /etc/hosts contains "10.0.1.15 gitlab.local"
-  command: awk /gitlab.local$/ /etc/hosts
+  ansible.builtin.command: awk /gitlab.local$/ /etc/hosts
   register: hosts_content
   changed_when: False
 
   # https://gitlab.com/gitlab-org/gitlab-runner/issues/1490
 - name: Add gitlab.local ip address into /etc/hosts
-  shell: echo "10.0.1.15 gitlab.local" >> /etc/hosts
-  when: not (hosts_content.stdout | match("10.0.1.15 gitlab.local"))
+  ansible.builtin.shell: echo "10.0.1.15 gitlab.local" >> /etc/hosts
+  when: "'10.0.1.15 gitlab.local' not in hosts_content.stdout"
 
 - name: Register GitLab Runner
-  include_tasks: register-runner.yml
+  ansible.builtin.include_tasks: register-runner.yml
   when: gitlab_runner_connect_enable == true
 
 - name: Setup docker with self signed ssl
-  include_tasks: docker.yml
+  ansible.builtin.include_tasks: docker.yml
   when: docker_package_state == "present"

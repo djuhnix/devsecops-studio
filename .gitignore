@@ -4,10 +4,12 @@
 
 *.retry
 .molecule
+.galaxy/
 
 # Vagrant
 *.log
 .vagrant
+.vagrant-cache/
 .cache
 
 # Byte-compiled / optimized / DLL files

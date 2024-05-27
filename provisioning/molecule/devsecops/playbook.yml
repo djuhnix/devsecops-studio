@@ -41,8 +41,8 @@
     - common
     - geerlingguy.pip
     - geerlingguy.docker
-    - geerlingguy.ansible-role-packer
+    - geerlingguy.packer
     - secfigo.terraform
     - devsecops
-    - rvm_io.ruby
+    - rvm.ruby
     - inspec

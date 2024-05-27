@@ -15,11 +15,11 @@
   debconf: name='oracle-java{{ oracle_java_version }}-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
 
 - name: Install Java
-  apt:
+  ansible.builtin.apt:
     name="oracle-java{{ oracle_java_version }}-installer"
     state=present
 
 - name: Set Java version as default
-  apt:
+  ansible.builtin.apt:
     name="oracle-java{{ oracle_java_version }}-set-default"
     state=present

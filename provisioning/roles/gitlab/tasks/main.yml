@@ -1,19 +1,19 @@
 ---
 
 - name: Include OS-specific variables.
-  include_vars: "{{ ansible_os_family }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Check if GitLab configuration file already exists.
-  stat: path=/etc/gitlab/gitlab.rb
+  ansible.builtin.stat: path=/etc/gitlab/gitlab.rb
   register: gitlab_config_file
 
 - name: Check if GitLab is already installed.
-  stat: path=/usr/bin/gitlab-ctl
+  ansible.builtin.stat: path=/usr/bin/gitlab-ctl
   register: gitlab_file
 
 # Install GitLab and its dependencies.
 - name: Install GitLab dependencies.
-  package: name={{ item }} state=present
+  ansible.builtin.package: name={{ item }} state=present
   with_items:
     - openssh-server
     - postfix
@@ -21,34 +21,34 @@
     - openssl
 
 - name: Download GitLab repository installation script.
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ gitlab_repository_installation_script_url }}"
     dest: /tmp/gitlab_install_repository.sh
     validate_certs: "{{ gitlab_download_validate_certs }}"
   when: (gitlab_file.stat.exists == false)
 
 - name: Install GitLab repository
-  command: bash /tmp/gitlab_install_repository.sh
+  ansible.builtin.command: bash /tmp/gitlab_install_repository.sh
   when: (gitlab_file.stat.exists == false)
 
 - name: Install GitLab
-  package: name={{ gitlab_edition }} state=present
+  ansible.builtin.package: name={{ gitlab_edition }} state=present
   when: (gitlab_file.stat.exists == false)
 
 - name: Check if Gitlab reconfigure is run already
-  stat: path=/var/opt/gitlab/bootstrapped
+  ansible.builtin.stat: path=/var/opt/gitlab/bootstrapped
   register: gitlab_installed
 
 # Start and configure GitLab. Sometimes the first run fails, but after that,
 # restarts fix problems, so ignore failures on this run.
 - name: Reconfigure GitLab (first run).
-  command: gitlab-ctl reconfigure
+  ansible.builtin.command: gitlab-ctl reconfigure
   changed_when: (gitlab_installed.stat.exists == true)
   async: 60
   poll: 0
 
 - name: Create GitLab SSL configuration folder.
-  file:
+  ansible.builtin.file:
     path: /etc/gitlab/ssl
     state: directory
     owner: root
@@ -57,13 +57,13 @@
   when: gitlab_create_self_signed_cert
 
   #- name: Create self-signed certificate.
-  #  command: >
+  #  ansible.builtin.command: >
   #      openssl req -new -nodes -x509 -subj "{{ gitlab_self_signed_cert_subj }}" -days 3650 -keyout {{ gitlab_ssl_certificate_key }} -out {{ gitlab_ssl_certificate }} -extensions v3_ca
   #      creates={{ gitlab_ssl_certificate }}
   #  when: gitlab_create_self_signed_cert
 
 - name: Copy self-signed public certificate.
-  copy:
+  ansible.builtin.copy:
     src: gitlab.local.crt
     dest: /etc/gitlab/ssl/gitlab.local.crt
     owner: root
@@ -72,7 +72,7 @@
   when: gitlab_create_self_signed_cert
 
 - name: Copy self-signed certificate private key.
-  copy:
+  ansible.builtin.copy:
     src: gitlab.local.key
     dest: /etc/gitlab/ssl/gitlab.local.key
     owner: root
@@ -81,7 +81,7 @@
   when: gitlab_create_self_signed_cert
 
 - name: Copy GitLab configuration file.
-  template:
+  ansible.builtin.template:
     src: gitlab.rb.j2
     dest: /etc/gitlab/gitlab.rb
     owner: root

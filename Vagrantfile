@@ -17,6 +17,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Disable updates to keep environment sane.
   config.vm.box_check_update = false
 
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+  SHELL
+
   # Iterate through entries in YAML file
   machines.each do |machine|
     config.vm.define machine["name"] do |box|
@@ -30,7 +34,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       if machine["ansible"] != nil
         box.vm.provision "ansible" do |ansible|
-            ansible.playbook = machine["ansible"] 
+            ansible.version = "2.16.7"
+            ansible.compatibility_mode = "2.0"
+            ansible.playbook = machine["ansible"]
+            ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
+            ansible.verbose = "vvv"
         end
       end
 

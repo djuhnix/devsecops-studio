@@ -1,4 +1,0 @@
----
-terraform_version: "0.10.8"
-terraform_arch: "amd64"
-terraform_bin_path: /usr/local/bin

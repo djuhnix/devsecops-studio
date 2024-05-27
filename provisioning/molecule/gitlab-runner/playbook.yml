@@ -36,10 +36,10 @@
 
   roles:
     - common
-    - rvm_io.ruby
+    - rvm.ruby
     - secfigo.gauntlt
     - geerlingguy.docker
     - gitlab-runner
-    - geerlingguy.ansible-role-packer
+    - geerlingguy.packer
   tags:
     - runner

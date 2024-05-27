@@ -1,8 +1,16 @@
 ---
 
+- name: Install gauntlt missing dependencies
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - g++
+    - ruby-dev
+
 - name: Setup docker with self signed ssl
-  include_tasks: docker.yml
+  ansible.builtin.include_tasks: docker.yml
   when: docker_package_state == "present"
 
 - name: Add gitlab self signed ssl to trust store
-  include_tasks: custom-certs.yml
+  ansible.builtin.include_tasks: custom-certs.yml

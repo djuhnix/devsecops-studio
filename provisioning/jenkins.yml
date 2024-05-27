@@ -8,8 +8,10 @@
   vars:
     oracle_java_version: 8
 
+    gauntlt_version: "1.0.13"
+
     #Gauntlt needs ruby installed
-    ruby_version: 'ruby-2.3.1'
+    ruby_version: 'ruby-3.3.0'
     rvm1_rubies: ['{{ ruby_version }}']
     rvm1_user: 'root'
     rvm1_install_path: '/usr/local/rvm'
@@ -64,8 +66,8 @@
       - gitlab-plugin
 
   roles:
-    - common # need curl for rvm_io.ruby
-    - rvm_io.ruby
+    - common # need curl for rvm.ruby
+    - rvm.ruby
     - secfigo.gauntlt
     - geerlingguy.docker
     - geerlingguy.java
@@ -73,5 +75,5 @@
     - jenkins # Docker settings for jenkins
     - python
     - cli-tools
-    - geerlingguy.ansible-role-packer
+    - geerlingguy.packer
     # - selenium

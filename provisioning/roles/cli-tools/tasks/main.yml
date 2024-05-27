@@ -1,7 +1,7 @@
 ---
 
 - name: Install Security Tools
-  apt:
+  ansible.builtin.apt:
     name: '{{ item }}'
     state: present
   with_items:
@@ -9,10 +9,10 @@
     - nmap
     - sqlmap
     - python-pip
-    - python-virtualenv
+    - virtualenv
 
 - name: Install tools via pip
-  pip:
+  ansible.builtin.pip:
     name: "{{ item }}"
     state: present
   with_items:

@@ -23,7 +23,7 @@ provisioner:
     enabled: True
     options:
       excludes:
-        - roles/rvm_io.ruby/tasks/rvm.yml
+        - roles/rvm.ruby/tasks/rvm.yml
 scenario:
   name: devsecops
 verifier:

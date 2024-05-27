@@ -1,15 +1,17 @@
 ---
 
 - name: Install inspec dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{item}}"
     state: present
   with_items:
     - gcc
+    - g++
+    - ruby-dev
     - make
 
 - name: Install Inspec
-  gem:
+  community.general.gem:
     name: inspec
     state: present
     user_install: no
@@ -28,7 +30,7 @@
               /usr/local/rvm/gems/{{ruby_version}}@global"
 
 - name: Copy bash profile script to /etc/profile.d/
-  template:
+  ansible.builtin.template:
     src: rvm.sh.j2
     dest: /etc/profile.d/rvm.sh
     owner: root

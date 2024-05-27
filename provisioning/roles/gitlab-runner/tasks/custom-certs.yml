@@ -1,13 +1,13 @@
 ---
 
 - name: Ensure local certs directory exists
-  file:
+  ansible.builtin.file:
     path: "/usr/local/share/ca-certificates"
     recurse: true
     state: directory
 
 - name: Copy gitlab server's public key to gitlab-runner
-  copy:
+  ansible.builtin.copy:
     src: "{{gitlab_runner_coordinator_cert_path}}"
     dest: "/usr/local/share/ca-certificates/"
     owner: root
@@ -15,5 +15,5 @@
     mode: 0644
 
 - name: Update cert index
-  command: /usr/sbin/update-ca-certificates
+  ansible.builtin.command: /usr/sbin/update-ca-certificates
   when: (gitlab_runner_connect_enable == true)

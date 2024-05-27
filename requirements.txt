@@ -1,0 +1,15 @@
+# vagrant 2.2.7
+# brew install vagrant
+# VirtualBox 6.1.4
+# VirtualBox Extension Pack 6.1.4
+ansible==9.6.0
+molecule-plugins[docker]==23.5.3
+molecule==24.2.1
+docker==7.1.0
+cffi==1.15.1
+cryptography==42.0.7
+Jinja2==3.1.4
+MarkupSafe==2.1.5
+pycparser==2.22
+PyYAML==6.0.1
+six==1.16.0

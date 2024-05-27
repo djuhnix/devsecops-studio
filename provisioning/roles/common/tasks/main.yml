@@ -1,6 +1,6 @@
 ---
 - name: Install curl, locales and apt-transport-https
-  apt:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
     update_cache: yes
@@ -9,11 +9,12 @@
     - locales
     - apt-transport-https
     - sshpass
+    - build-essential
 
 - name: Configure Locale as en_US.UTF-8
-  locale_gen:
+  community.general.locale_gen:
     name: en_US.UTF-8
     state: present
 
 - name: Add /etc/hosts entries in DevSecOps-Box
-  include_tasks: hosts_entry.yml
+  ansible.builtin.include_tasks: hosts_entry.yml

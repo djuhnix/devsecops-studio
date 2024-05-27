@@ -1,18 +1,18 @@
 ---
 
 - name: Add deploy user to Docker group
-  user:
+  ansible.builtin.user:
     name: "{{ deploy_user_name }}"
     groups: docker
     append: "yes"
 
 - name: Create directory for trusting docker registry
-  file:
+  ansible.builtin.file:
     path: "{{docker_registry_cert_path}}"
     state: directory
 
 - name: Copy self-signed public certificate.
-  copy:
+  ansible.builtin.copy:
     src: gitlab.local.crt
     dest: "{{docker_registry_cert_path}}/ca.crt"
     owner: root

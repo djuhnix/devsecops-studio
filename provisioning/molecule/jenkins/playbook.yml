@@ -59,13 +59,13 @@
       - ansible
 
   roles:
-    - common # need curl for rvm_io.ruby
-    - rvm_io.ruby
+    - common # need curl for rvm.ruby
+    - rvm.ruby
     - secfigo.gauntlt
     - geerlingguy.docker
     - geerlingguy.java
     - geerlingguy.jenkins
     - python
     - cli-tools
-    - geerlingguy.ansible-role-packer
+    - geerlingguy.packer
     # - selenium

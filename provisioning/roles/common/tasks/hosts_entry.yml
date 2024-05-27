@@ -2,7 +2,7 @@
 
 - name: Add mappings to /etc/hosts
   # vagrant environment nodes
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: /etc/hosts
     block: |
       {{ item.ip }} {{ item.name }}

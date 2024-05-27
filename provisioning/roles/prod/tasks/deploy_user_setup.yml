@@ -1,11 +1,12 @@
 ---
 
 - name: Check if deploy user ~/.ssh directory is created
-  stat: path= "{{ deploy_user_ssh_dir }}"
+  ansible.builtin.stat:
+    path: "{{ deploy_user_ssh_dir }}"
   register: deploy_user_ssh_dir_stat
 
 - name: Create deploy user and add to docker group
-  user:
+  ansible.builtin.user:
     name: "{{ deploy_user_name }}"
     shell: /bin/bash
     groups: docker
@@ -16,7 +17,7 @@
   when: (deploy_user_ssh_dir_stat.stat.exists == false)
 
 #- name: Create required directory
-#  file:
+#  ansible.builtin.file:
 #    path: "{{ deploy_user_ssh_dir }}"
 #    state: directory
 #    owner: "{{ deploy_user_name }}"
@@ -26,7 +27,7 @@
 #  when: (deploy_user_ssh_dir_stat.stat.exists == false)
 #
 #- name: Copy private and Public SSH keys
-#  copy:
+#  ansible.builtin.copy:
 #    src: "{{ item }}"
 #    dest: "{{ deploy_user_ssh_dir }}"
 #    owner: "{{ deploy_user_name }}"
@@ -38,11 +39,12 @@
 #  when: (deploy_user_ssh_dir_stat.stat.exists == false)
 
 - name: Check if authorized_keys file is created
-  stat: path= "{{ authorized_keys_file }}"
+  ansible.builtin.stat:
+    path: "{{ authorized_keys_file }}"
   register: deploy_user_authorized_keys
 
 - name: Copy id_rsa.pub file into authorized_keys
-  copy:
+  ansible.builtin.copy:
     src: "{{ deploy_user_ssh_dir }}/id_rsa.pub"
     dest: "{{ authorized_keys_file }}"
     owner: "{{ deploy_user_name }}"
