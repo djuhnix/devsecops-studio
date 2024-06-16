@@ -9,7 +9,7 @@ VAGRANTFILE_API_VERSION = "2"
 require 'yaml'
 
 # Read machine configs from YAML file
-machines = YAML.load_file(File.join(File.dirname(__FILE__), 'machines.yml'))
+config = YAML.load_file(File.join(File.dirname(__FILE__), 'config.yml'))
 
 # Create boxes
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   SHELL
 
   # Iterate through entries in YAML file
-  machines.each do |machine|
+  config.machines.each do |machine|
     config.vm.define machine["name"] do |box|
       box.vm.box = machine["box"]
       box.vm.hostname = machine["name"]

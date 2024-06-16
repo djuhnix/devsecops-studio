@@ -12,6 +12,9 @@
 .vagrant-cache/
 .cache
 
+# Terraform
+.terraform/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

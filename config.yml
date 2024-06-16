@@ -1,0 +1,76 @@
+---
+
+local:
+  # Path to the public key to be used for the Cloud VMs
+  # Note: Only RSA SSH keys are supported by Azure
+  public_key: "~/.ssh/id_rsa.pub"
+
+# Azure configuration
+azure:
+  resource_group: "rg_devsecops_studio"
+  location: "eastus"
+  vm_size: "Standard_F2s"
+  network:
+    name: "vnet_devsecops_studio"
+    address_space: "10.0.0.0/16"
+  subnet:
+    name: "vnet_devsecops_studio_01"
+    address_prefixes: "10.0.1.0/24"
+
+  admin_username: "devsecops"
+
+machines:
+  - name: DevSecOps-Box
+    box: ubuntu/jammy64
+    ram: 1024
+    ip: 10.0.1.10
+    ansible: "provisioning/devsecops-box.yml"
+    azure:
+      vm_size: "Standard_A1_v2"
+
+  - name: jenkins
+    box: ubuntu/jammy64
+    ram: 1024
+    ip: 10.0.1.11
+    ansible: "provisioning/jenkins.yml"
+    azure:
+      vm_size: "Standard_A1_v2"
+
+  - name: gitlab
+    box: ubuntu/jammy64
+    ram: 4096
+    ip: 10.0.1.15
+    ansible: "provisioning/gitlab.yml"
+    azure:
+      vm_size: "Standard_F2s"
+
+  - name: gitlab-runner
+    box: ubuntu/jammy64
+    ram: 512
+    ip: 10.0.1.16
+    ansible: "provisioning/gitlab-runner.yml"
+    azure:
+      vm_size: "Standard_A1_v2"
+
+  - name: elk
+    box: ubuntu/jammy64
+    ram: 2048
+    ip: 10.0.1.18
+    ansible: "provisioning/elk.yml"
+    azure:
+      vm_size: "Standard_F2"
+
+    #- name: vuln-management
+    #  box: ubuntu/jammy64
+    #  ram: 512
+    #  ip: 10.0.1.20
+    #  ansible: "dojo.yml"
+
+    # Includes registry docker, docker and docker compose installed.
+  - name: prod
+    box: ubuntu/jammy64
+    ram: 1024
+    ip: 10.0.1.22
+    ansible: "provisioning/prod.yml"
+    azure:
+      vm_size: "Standard_A1_v2"
