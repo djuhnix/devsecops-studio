@@ -86,4 +86,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   disable_password_authentication = true
+
+  provisioner "local-exec" {
+    command = "ansible-playbook -i '${self.private_ip_address},' -u ${self.admin_username} --private-key ${local.config.local.private_key} ${local.config.machines[count.index].ansible}"
+  }
 }

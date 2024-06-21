@@ -4,12 +4,12 @@ local:
   # Path to the public key to be used for the Cloud VMs
   # Note: Only RSA SSH keys are supported by Azure
   public_key: "~/.ssh/id_rsa.pub"
+  private_key: "~/.ssh/id_rsa"
 
 # Azure configuration
 azure:
   resource_group: "rg_devsecops_studio"
-  location: "eastus"
-  vm_size: "Standard_F2s"
+  location: "westeurope"
   network:
     name: "vnet_devsecops_studio"
     address_space: "10.0.0.0/16"
@@ -26,7 +26,7 @@ machines:
     ip: 10.0.1.10
     ansible: "provisioning/devsecops-box.yml"
     azure:
-      vm_size: "Standard_A1_v2"
+      vm_size: "Standard_F1s"
 
   - name: jenkins
     box: ubuntu/jammy64
@@ -34,7 +34,7 @@ machines:
     ip: 10.0.1.11
     ansible: "provisioning/jenkins.yml"
     azure:
-      vm_size: "Standard_A1_v2"
+      vm_size: "Standard_F1s"
 
   - name: gitlab
     box: ubuntu/jammy64
@@ -42,7 +42,7 @@ machines:
     ip: 10.0.1.15
     ansible: "provisioning/gitlab.yml"
     azure:
-      vm_size: "Standard_F2s"
+      vm_size: "Standard_A1_v2"
 
   - name: gitlab-runner
     box: ubuntu/jammy64
@@ -50,7 +50,7 @@ machines:
     ip: 10.0.1.16
     ansible: "provisioning/gitlab-runner.yml"
     azure:
-      vm_size: "Standard_A1_v2"
+      vm_size: "Standard_F1s"
 
   - name: elk
     box: ubuntu/jammy64
@@ -58,7 +58,7 @@ machines:
     ip: 10.0.1.18
     ansible: "provisioning/elk.yml"
     azure:
-      vm_size: "Standard_F2"
+      vm_size: "Standard_A1_v2"
 
     #- name: vuln-management
     #  box: ubuntu/jammy64
@@ -73,4 +73,4 @@ machines:
     ip: 10.0.1.22
     ansible: "provisioning/prod.yml"
     azure:
-      vm_size: "Standard_A1_v2"
+      vm_size: "Standard_F1s"
