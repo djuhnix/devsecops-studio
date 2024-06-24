@@ -9,6 +9,16 @@ See [README.off.md](README.off.md) for the original README.
 
 ## Getting Started
 
+Create virtual environment and install requirements:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+which pip
+pip install -r requirements.txt
+ansible-galaxy install -r requirements.yml
+```
+
 
 
 ## Todo Features

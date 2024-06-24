@@ -16,6 +16,12 @@ azure:
   subnet:
     name: "vnet_devsecops_studio_01"
     address_prefixes: "10.0.1.0/24"
+  security_group:
+    name: "sg_devsecops_studio"
+  bastion:
+    name: "bastion_devsecops_studio"
+    #public_ip: "bastion_devsecops_studio_ip"
+    address_prefixes: "10.0.2.0/25"
 
   admin_username: "devsecops"
 
