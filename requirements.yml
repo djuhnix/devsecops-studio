@@ -1,16 +1,21 @@
 ---
 
-- src: geerlingguy.pip
-- src: geerlingguy.ruby
-- src: geerlingguy.docker
-- src: geerlingguy.packer
-- src: geerlingguy.nginx
-- src: geerlingguy.elasticsearch
-- src: geerlingguy.kibana
-- src: geerlingguy.logstash
-- src: geerlingguy.java
-- src: geerlingguy.jenkins
-- src: rvm.ruby
-- src: secfigo.terraform
-- src: secfigo.gauntlt
-  version: master
+roles:
+  - src: geerlingguy.pip
+  - src: geerlingguy.ruby
+  - src: geerlingguy.docker
+  - src: geerlingguy.packer
+  - src: geerlingguy.nginx
+  - src: geerlingguy.elasticsearch
+  - src: geerlingguy.kibana
+  - src: geerlingguy.logstash
+  - src: geerlingguy.java
+  - src: geerlingguy.jenkins
+  - src: rvm.ruby
+  - src: secfigo.terraform
+  - src: secfigo.gauntlt
+    version: master
+
+collections:
+  - name: azure.azcollection
+    version: 2.4.0

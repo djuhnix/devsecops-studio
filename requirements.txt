@@ -3,6 +3,16 @@
 # VirtualBox 6.1.4
 # VirtualBox Extension Pack 6.1.4
 ansible==9.6.0
+ansible[azure]==9.6.0
+azure-cli==2.61.0
+azure-mgmt-core==1.4.0
+azure-mgmt-network==25.4.0
+azure-mgmt-automation==1.0.0
+azure-mgmt-notificationhubs==8.0.0
+azure-mgmt-datafactory==8.0.0
+azure-identity==1.17.1
+azure-storage-blob==12.20.0
+msrestazure==0.6.4
 molecule-plugins[docker]==23.5.3
 molecule==24.2.1
 docker==7.1.0
@@ -11,5 +21,6 @@ cryptography==42.0.7
 Jinja2==3.1.4
 MarkupSafe==2.1.5
 pycparser==2.22
+msgraph-sdk==1.4.0
 PyYAML==6.0.1
 six==1.16.0
