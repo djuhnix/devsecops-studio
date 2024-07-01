@@ -5,6 +5,7 @@
 *.retry
 .molecule
 .galaxy/
+*.secrets.yml
 
 # Vagrant
 *.log

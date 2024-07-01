@@ -1,7 +1,8 @@
 ---
 
 - name: Install Docker, Docker Compose, Ansible, Packer and Terraform
-  hosts: all
+  hosts:
+    - DevSecOps-Box
   become: true
   become_user: root
   remote_user: vagrant

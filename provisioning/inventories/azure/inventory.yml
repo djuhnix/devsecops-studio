@@ -1,0 +1,13 @@
+all:
+  vars:
+    ansible_ssh_common_args: >-
+      -o ProxyCommand="bash -c "port=$(( 4096 + $RANDOM %% 1024 )) ; 
+            pgid=$( ps -o pgid= -p $$ ) ; 
+            az network bastion tunnel 
+                --resource-group {{ azure.resource_group }} 
+                --name {{ azure.bastion.name }} 
+                --resource-port %p 
+                --port \$port 
+                --target-resource-id /subscriptions/{{ azure.subscription_id }}/resourceGroups/{{ azure.resource_group }}/providers/Microsoft.Compute/virtualMachines/%h & trap \"kill -- -\$pgid\" INT QUIT TERM EXIT ; 
+            sleep 2 ; 
+            nc 127.0.0.1 \$port""
